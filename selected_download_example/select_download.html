@@ -3,43 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Select download guide</title>
+    <title>Selected contry download example</title>
   </head>
   <body>
     <select id="selectLocation">
-      <option value="none">Choose File</option>
+      <option value="">Choose Contry</option>
       <option value="001">country 1</option>
       <option value="002">country 2</option>
       <option value="003">country 3</option>
     </select>
-    <button onclick="selectedDownload()">
-      download
-    </button>
-    
+    <button onclick="selectedDownload()"> download </button>
+
     <!-- s selected contry download script  -->
     <script>
-      let download = function(filename, filepath) {
+      // Contry List
+      let ctrList = [
+        { cNum: "001", cName: "contry1", cCode: "ctr1", fName: "example.png" },
+        { cNum: "002", cName: "contry2", cCode: "ctr2", fName: "example2.png" },
+        { cNum: "003", cName: "contry3", cCode: "ctr3", fName: "example3.png" },
+      ];
+
+      // Download function
+      let download = function (filename, filepath) {
         var element = document.createElement("a");
         element.setAttribute("href", filepath);
         element.setAttribute("download", filename);
         document.body.appendChild(element);
         element.click();
         document.body.removeChild(element);
-      }
+      };
 
+      // event function
       let selectedDownload = function () {
-        let val = document.querySelector('#selectLocation > option:checked').value;
-        let fpath = "./assets/images";
-        console.log(val.value);
-        if (val === "001") {
-          let fname = "example.png";
-          download(fname, fpath);
-        }else if (val === "002") {
-          let fname = "example2.png";
-          download(fname, fpath);
-        }else if (val === "003") {
-          let fname = "example3.png";
-          download(fname, fpath);
+        let val = document.querySelector(
+          "#selectLocation > option:checked"
+        ).value; // selected contry
+        let fname; // file name
+        let fpath = "./assets/images"; // file path
+        for (let i = 0; i < ctrList.length; i++) {
+          if (val === ctrList[i].cNum) {
+            fname = ctrList[i].fName;
+          }
+        }
+        if (val !== "") {
+          download(fname, fpath); 
         }
       };
     </script>
